@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos produits - ARTMAD{% endblock %}
+
+{% block breadcrumb %}
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Produits</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                                <li class="active" aria-current="page">Produits</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+{% endblock %}
+
+{% block content %}
+
+<div class="shop-section">
+    <div class="container">
+        <div class="row flex-column-reverse flex-lg-row">
+            <div class="col-lg-3">
+                <!-- Start Sidebar Area -->
+                <div class="siderbar-section" data-aos="fade-up" data-aos-delay="0">
+
+                    <!-- Start Single Sidebar Widget -->
+                    <div class="sidebar-single-widget">
+                        <h6 class="sidebar-title">CATEGORIES</h6>
+                        <div class="sidebar-content">
+                            <div class="filter-type-select">
+                                {{ form(form) }}
+                            </div>
+                        </div>
+                    </div> <!-- End Single Sidebar Widget -->
+
+                </div> <!-- End Sidebar Area -->
+            </div>
+
+            <div class="col-lg-9">
+                <!-- Start Shop Product Sorting Section -->
+                <div class="shop-sort-section">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Start Sort Wrapper Box -->
+                            <div class="sort-box d-flex justify-content-between align-items-md-center align-items-start flex-md-row flex-column"
+                                data-aos="fade-up" data-aos-delay="0">
+                                <!-- Start Sort tab Button -->
+                                <div class="sort-tablist d-flex align-items-center">
+                                    <ul class="tablist nav sort-tab-btn">
+                                        <li><a class="nav-link active" data-bs-toggle="tab"
+                                                href="#layout-3-grid"><img src="{{ asset('assets/img/bkg_grid.png') }}"
+                                                    alt=""></a></li>
+                                        <li><a class="nav-link" data-bs-toggle="tab" href="#layout-list"><img
+                                                    src="{{ asset('assets/img/bkg_list.png') }}" alt=""></a></li>
+                                    </ul>
+
+                                </div> <!-- End Sort tab Button -->
+                            </div> <!-- Start Sort Wrapper Box -->
+                        </div>
+                    </div>
+                </div> <!-- End Section Content -->
+
+                <!-- Start Tab Wrapper -->
+                <div class="sort-product-tab-wrapper">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content tab-animate-zoom">
+
+                                    <!-- Start Grid View Product -->
+                                    <div class="tab-pane active show sort-layout-single" id="layout-3-grid">
+                                        <div class="row">
+
+                                            {% for product in products %}
+                                            <div class="col-xl-4 col-sm-6 col-12">
+                                                <!-- Start Product Default Single Item -->
+                                                <div class="product-default-single-item product-color--golden"
+                                                    data-aos="fade-up" data-aos-delay="0">
+                                                    <div class="image-box">
+                                                        <a href="{{ path('app_product', {'slug' : product.slug}) }}" class="image-link">
+                                                            <img src="/imgUploads/{{ product.illustration }}"
+                                                                alt="{{ product.name }}" height="690px" width="600px">
+                                                        </a>
+                                                        <div class="action-link">
+                                                            <div class="action-link-left">
+                                                                <a href="{{ path('add_to_cart', { 'id' : product.id }) }}">Ajouter au panier</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content">
+                                                        <div class="content-left">
+                                                            <h6 class="title"><a
+                                                                    href="{{ path('app_product', {'slug' : product.slug}) }}">{{ product.name }}</a></h6>
+                                                            <ul class="review-star">
+                                                                <li class="fill"><i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill"><i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill"><i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill"><i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="empty"><i class="ion-android-star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="content-right">
+                                                            <span class="price">{{ (product.price / 100)|number_format(0, '.', ' ') }} Ar</span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!-- End Product Default Single Item -->
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane sort-layout-single" id="layout-list">
+                                        <div class="row">
+
+                                            {% for product in products %}
+                                            <div class="col-12">
+                                                <!-- Start Product Defautlt Single -->
+                                                <div class="product-list-single product-color--golden">
+                                                    <a href="{{ path('app_product', {'slug' : product.slug}) }}"
+                                                        class="product-list-img-link">
+                                                        <img class="img-fluid"
+                                                            src="/imgUploads/{{ product.illustration }}"
+                                                            alt="{{ product.name }}">
+                                                    </a>
+                                                    <div class="product-list-content">
+                                                        <h5 class="product-list-link"><a
+                                                                href="{{ path('app_product', {'slug' : product.slug}) }}">{{ product.name }}</a></h5>
+                                                        <ul class="review-star">
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="empty"><i class="ion-android-star"></i></li>
+                                                        </ul>
+                                                        <span class="product-list-price">{{ (product.price / 100)|number_format(0, '.', ' ') }} Ar</span>
+                                                        <p>{{ product.description }}</p>
+                                                        <div class="product-action-icon-link-list">
+                                                            <a href="{{ path('add_to_cart', { 'id' : product.id }) }}" class="btn btn-lg btn-black-default-hover">Ajouter au panier</a>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- End Product Defautlt Single -->
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div><!-- End List View Product -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Tab Wrapper -->
+
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

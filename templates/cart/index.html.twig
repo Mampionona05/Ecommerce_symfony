@@ -1,0 +1,184 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon pannier - ARTMAD{% endblock %}
+
+{% block breadcrumb %}
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Mon pannier</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                                <li class="active" aria-current="page">Pannier</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+{% endblock %}
+
+{% block content %}
+    {% if cart|length > 0 %}
+        <!-- ...:::: Start Cart Section:::... -->
+        <div class="cart-section">
+            <!-- Start Cart Table -->
+            <div class="cart-table-wrapper" data-aos="fade-up" data-aos-delay="0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table_desc">
+                                <div class="table_page table-responsive">
+                                    <table>
+                                        <!-- Start Cart Table Head -->
+                                        <thead>
+                                            <tr>
+                                                <th class="product_remove">Supprimer</th>
+                                                <th class="product_thumb">Illustration</th>
+                                                <th class="product_name">Produit</th>
+                                                <th class="product-price">Prix</th>
+                                                <th class="product_quantity">Quantité</th>
+                                                <th class="product_total">Total</th>
+                                            </tr>
+                                        </thead> <!-- End Cart Table Head -->
+                                        <tbody>
+                                            <!-- Start Cart Single Item-->
+                                            {% set total = null %}
+                                            {% for product in cart %}
+                                            <tr>
+                                                <td class="product_remove">
+                                                    <a href="{{ path('delete_to_cart', {'id' : product.product.id }) }}"><i class="fa fa-trash-o"></i></a>
+                                                </td>
+                                                <td class="product_thumb">
+                                                    <img src="/imgUploads/{{ product.product.illustration }}" alt="{{ product.product.name }}">
+                                                </td>
+                                                <td class="product_name">{{ product.product.name }}</td>
+                                                <td class="product-price">{{ (product.product.price / 100)|number_format(0, '.', ' ') }} Ar</td>
+                                                <td class="product_quantity">
+                                                    <a href="{{ path('decrease_to_cart', {'id' : product.product.id }) }}">
+                                                        <img src="{{ asset('assets/img/moins.png') }}" height="12px" alt="Retirer une quantité a mon produit">
+                                                    </a>
+                                                    x {{ product.quantity }}
+                                                    <a href="{{ path('add_to_cart', {'id' : product.product.id }) }}">
+                                                        <img src="{{ asset('assets/img/plus.png') }}" height="12px" alt="Ajouter un produit">
+                                                    </a>
+                                                </td>
+                                                <td class="product_total">{{ ((product.product.price * product.quantity)/ 100)|number_format(0, '.', ' ') }} Ar</td>
+                                            </tr> <!-- End Cart Single Item-->
+                                            {% set total = total + product.product.price * product.quantity %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Cart Table -->
+
+            <!-- Start Coupon Start -->
+            <div class="coupon_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="coupon_code right" data-aos="fade-up" data-aos-delay="400">
+                                <h3>Total panier</h3>
+                                <div class="coupon_inner">
+                                    <div class="cart_subtotal">
+                                        <p>Nombre de produits</p>
+                                        <p class="cart_amount">{% block cartlength %}{{ cart|length }}{% endblock %}</p>
+                                    </div>
+
+                                    <div class="cart_subtotal">
+                                        <p>Total</p>
+                                        <p class="cart_amount">{{ (total / 100)|number_format(0, '.', ' ') }} Ar</p>
+                                    </div>
+                                    <div class="checkout_btn">
+                                        <a href="{{ path('app_order') }}" class="btn btn-md btn-golden">Valider mon panier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Coupon Start -->
+        </div> <!-- ...:::: End Cart Section:::... -->
+
+        <!-- table class="table mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">Produits</th>
+                    <th scope="col"></th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = null %}
+                {% for product in cart %}
+                <tr>
+                    <td>
+                        <img src="/imgUploads/{{ product.product.illustration }}" alt="{{ product.product.name }}" height="75px"><br/>
+                    </td>
+                    <td>
+                        {{ product.product.name }}<br/>
+                        <small>{{ product.product.subtitle }}</small>
+                    </td>
+                    <td>
+                        <a href="{{ path('decrease_to_cart', {'id' : product.product.id }) }}">
+                            <img src="{{ asset('assets/img/moins.png') }}" height="12px" alt="Retirer une quantité a mon produit">
+                        </a>
+                        x {{ product.quantity }}
+                        <a href="{{ path('add_to_cart', {'id' : product.product.id }) }}">
+                            <img src="{{ asset('assets/img/plus.png') }}" height="12px" alt="Ajouter un produit">
+                        </a>
+                    </td>
+                    <td>{{ (product.product.price / 100)|number_format(2, ',', '.') }} Ar</td>
+                    <td>{{ ((product.product.price * product.quantity)/ 100)|number_format(2, ',', '.') }} Ar</td>
+                    <td>
+                        <a href="{{ path('delete_to_cart', {'id' : product.product.id }) }}">
+                            <img src="{{ asset('assets/img/poubelle.png') }}" height="20px" alt="Supprimer mon produit">
+                        </a>
+                    </td>
+                </tr>
+                    {% set total = total + product.product.price * product.quantity %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right mb-5">
+            <b>Nombre de produits : </b> {{ cart|length }} <br>
+            <b>Total prix : </b> {{ (total / 100)|number_format(2 , ',', '.') }} Ar<br>
+            <a href="{{ path('app_order') }}" class="btn btn-block btn-success mt-3"> Valider mon panier </a>
+        </div -->
+    {% else %}
+        <!-- ...::::Start About Us Center Section:::... -->
+        <div class="empty-cart-section section-fluid">
+            <div class="emptycart-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-10 offset-md-1 col-xl-6 offset-xl-3">
+                            <div class="emptycart-content text-center">
+                                <div class="image">
+                                    <img class="img-fluid" src="{{ asset('assets/img/empty-cart.png') }}" alt="">
+                                </div>
+                                <h4 class="title">Votre panier est vide</h4>
+                                <h6 class="sub-title">Sorry Mate... No item Found inside your cart!</h6>
+                                <a href="{{ path('app_products') }}" class="btn btn-lg btn-golden">Continue Shopping</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- ...::::End  About Us Center Section:::... -->
+    {% endif %}
+    
+{% endblock %}

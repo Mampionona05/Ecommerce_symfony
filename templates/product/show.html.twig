@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} - ARTMAD{% endblock %}
+
+{% block breadcrumb %}
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Produit</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                                <li><a href="{{ path('app_products') }}">Produits</a></li>
+                                <li class="active" aria-current="page">Produit</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+{% endblock %}
+
+{% block content %}
+
+<!-- START SECTION SHOP -->
+<div class="product-details-section">
+	<div class="container">
+		<div class="row">
+            <div class="col-xl-5 col-lg-6">
+              <div class="product-details-gallery-area" data-aos="fade-up" data-aos-delay="0">
+                    <div class="product-large-image product-large-image-horaizontal">
+                        <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                            <img src="/imgUploads/{{ product.illustration }}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-7 col-lg-6">
+                <div class="product-details-content-area product-details--golden" data-aos="fade-up"
+                        data-aos-delay="200">
+                    <div class="product-details-text">
+                        <h4 class="title">{{ product.name }}</h4>
+                        <div class="price">{{ (product.price / 100)|number_format(0, '.', ' ') }} Ar</div>
+                        <p>{{ product.description}}.</p>
+                    </div>
+                    <hr>
+                    <div class="d-flex align-items-center">
+                        <!-- div class="variable-single-item ">
+                            <span>Quantité</span>
+                            <div class="product-variable-quantity">
+                                <input min="1" max="100" value="1" type="number">
+                            </div>
+                        </div -->
+                        <div class="product-add-to-cart-btn">
+                            <a href="{{ path('add_to_cart', { 'id' : product.id }) }}" class="btn btn-block btn-lg btn-black-default-hover"><i class="icon-basket-loaded"> </i> Ajouter au panier</a>
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="product-details-social">
+                        <span class="title">PARTAGEZ CE PRODUIT :</span>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Start Product Default Slider Section -->
+<div class="product-default-slider-section section-top-gap-100 section-fluid section-inner-bg">
+    <!-- Start Section Content Text Area -->
+    <div class="section-title-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-content-gap">
+                        <div class="secton-content">
+                            <h3 class="section-title">NOS MEILLEURES VENTES</h3>
+                            <p>Découvrez les produits les plus vendus.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start Section Content Text Area -->
+    <div class="product-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="product-slider-default-1row default-slider-nav-arrow">
+                        <!-- Slider main container -->
+                        <div class="swiper-container product-default-slider-4grid-1row">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- End Product Default Single Item -->
+                                {% for product in products %}
+                                <!-- Start Product Default Single Item -->
+                                <div class="product-default-single-item product-color--golden swiper-slide">
+                                    <div class="image-box">
+                                        <a href="{{ path('app_product', {'slug' : product.slug}) }}" class="image-link">
+                                            <img src="/imgUploads/{{ product.illustration }}"
+                                                alt="{{ product.name }}" height="690px" width="600px">
+                                        </a>
+                                        <div class="action-link">
+                                            <div class="action-link-left">
+                                                <a href="{{ path('add_to_cart', { 'id' : product.id }) }}">Ajouter au panier</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="content-left">
+                                            <h6 class="title"><a
+                                                    href="{{ path('app_product', {'slug' : product.slug}) }}">{{ product.name }}</a></h6>
+                                            <ul class="review-star">
+                                                <li class="fill"><i class="ion-android-star"></i>
+                                                </li>
+                                                <li class="fill"><i class="ion-android-star"></i>
+                                                </li>
+                                                <li class="fill"><i class="ion-android-star"></i>
+                                                </li>
+                                                <li class="fill"><i class="ion-android-star"></i>
+                                                </li>
+                                                <li class="empty"><i class="ion-android-star"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="content-right">
+                                            <span class="price">{{ (product.price / 100)|number_format(0, '.', ' ') }} Ar</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- End Product Default Single Item -->
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- If we need navigation buttons -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Product Default Slider Section -->
+    
+{% endblock %}
